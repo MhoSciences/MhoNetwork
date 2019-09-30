@@ -78,7 +78,7 @@ void main(){
     }
 }
 
-void __ISR(_UART1_RX_VECTOR, IPL1SOFT)_UART1RXHandler(void) 
+void __ISR(_UART1_RX_VECTOR, IPL1SRS)_UART1RXHandler(void) 
  {
     if (IFS1bits.U1RXIF == 1) {
         d_index = uartread(0);
