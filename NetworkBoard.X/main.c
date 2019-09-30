@@ -59,7 +59,16 @@ void setup_io(){
     TRISCbits.TRISC9 = 0;
 }
 
-
+void __ISR(_UART1_RX_VECTOR, IPL1AUTO)UART1RXHandler(void) 
+ {
+    //if (IFS1bits.U1RXIF == 1) {
+        d_index = uartread(0);
+        //uartsend(0, d_index);
+        //data_rx_pin = ~data_rx_pin;
+        //index++;
+        //index = index % 0x10;
+    //}
+}
 
 void main(){
     setup_io();
@@ -69,22 +78,13 @@ void main(){
     uartsetup(0, 6000000, 9600);
     INTCON = 0x0000;
     
-    int loop;
+    int loop = 0;
     while(1){
-        //uartsend(0, 0x55);
+        uartsend(0, '0');
+        for(loop = 0; loop < 60000; loop++);
         if(d_index == '0'){
             data_rx_pin = ~data_rx_pin;
         }
     }
 }
 
-void __ISR(_UART1_RX_VECTOR, IPL1SRS)_UART1RXHandler(void) 
- {
-    if (IFS1bits.U1RXIF == 1) {
-        d_index = uartread(0);
-        uartsend(0, d_index);
-        data_rx_pin = ~data_rx_pin;
-        //index++;
-        //index = index % 0x10;
-    }
-}

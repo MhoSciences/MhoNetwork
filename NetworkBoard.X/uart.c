@@ -2,9 +2,13 @@
 #include "uart.h"
 
 void uartsetup(char which, long clock, int baud){
-    if(which == 0){
+    if(which == 0){        
         IPC13bits.U1RXIP = 1;
+        IPC13bits.U1RXIS = 1;
+        IEC1bits.U1EIE = 1;
         IEC1bits.U1RXIE = 1;
+        
+        __builtin_enable_interrupts();
         
         TRISBbits.TRISB15 = 1;
         ANSELBbits.ANSB15 = 0;

@@ -6,7 +6,7 @@
 
 int global_data;
 
-int _setupNetworkDefaults(char packetHeader[]){
+int _setupNetworkDefaults(long packetHeader[]){
     
     packetHeader[0] = 0x01; //SOH byte
     packetHeader[1] = _getHardwareAddress(0x01); //HIDH: Hardware address high byte
@@ -24,17 +24,17 @@ int _setupNetworkDefaults(char packetHeader[]){
     packetHeader[13] = 0x00; //CHKSUM1: First checksum byte
     packetHeader[14] = 0x00; //CHKSUM2: Second checksum byte
     packetHeader[15] = 0x04; //EOT byte
-    return
+    return;
 }
 
 char _getHardwareAddress(char byteNum){
     char highByte = 0x00; 
     char lowByte = 0x00;
     if(byteNum == 0x00){
-        return highByte;
+        return lowByte;
     }   
     else{
-        return lowByte;
+        return highByte;
     }
 }
 
