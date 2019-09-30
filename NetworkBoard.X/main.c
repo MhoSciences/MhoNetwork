@@ -49,42 +49,54 @@
 char array[0x10];
 char d_index = 0;
 
-void setup_io(){
+void setup_io() {
     //Input Setup RA0-RA3 are address pins RA4 is Input
     TRISA = 0xFF;
     ANSELA = 0x00;
-    
+
     //Output Setup RB9 is System Power RC9 is Data Interrupt Flag
     TRISBbits.TRISB9 = 0;
     TRISCbits.TRISC9 = 0;
 }
 
-void __ISR(_UART1_RX_VECTOR, IPL1AUTO)UART1RXHandler(void) 
- {
-    //if (IFS1bits.U1RXIF == 1) {
-        d_index = uartread(0);
-        //uartsend(0, d_index);
-        //data_rx_pin = ~data_rx_pin;
-        //index++;
-        //index = index % 0x10;
-    //}
+void __ISR(_UART1_RX_VECTOR, IPL6SOFT)_UART1RXHandler(void) {
+    if (IFS1bits.U1RXIF) {
+        while (IFS1bits.U1RXIF) {
+            d_index = U1RXREG;
+            U1RXREG = 0;
+            IFS1CLR = _IFS1_U1RXIF_MASK;
+            //sys_pwr_pin = U1STAbits.URXDA;
+        }
+        data_rx_pin = ~data_rx_pin;
+    }
 }
 
-void main(){
+void main() {
     setup_io();
-    
+
     initPwm();
-    
+
+    __builtin_disable_interrupts();
+    //Int priorities
+    IPC13bits.U1RXIP = 6;
+    IPC13bits.U1RXIS = 1;
+    //Int flags
+    IFS1bits.U1RXIF = 0;
+    //Int enable/disable
+    IEC1bits.U1EIE = 0;
+    IEC1bits.U1TXIE = 0;
+    IEC1bits.U1RXIE = 1; //Enable int on RX
+    //Enable multi-vector interrupts
+    //INTCON = 0x00;
+    //INTCONSET = _INTCON_MVEC_MASK;
+    __builtin_enable_interrupts();
+
     uartsetup(0, 6000000, 9600);
-    INTCON = 0x0000;
-    
+
     int loop = 0;
-    while(1){
+    while (1) {
         uartsend(0, '0');
-        for(loop = 0; loop < 60000; loop++);
-        if(d_index == '0'){
-            data_rx_pin = ~data_rx_pin;
-        }
+        for (loop = 0; loop < 60000; loop++);
     }
 }
 

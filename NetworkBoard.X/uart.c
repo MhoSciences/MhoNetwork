@@ -2,14 +2,7 @@
 #include "uart.h"
 
 void uartsetup(char which, long clock, int baud){
-    if(which == 0){        
-        IPC13bits.U1RXIP = 1;
-        IPC13bits.U1RXIS = 1;
-        IEC1bits.U1EIE = 1;
-        IEC1bits.U1RXIE = 1;
-        
-        __builtin_enable_interrupts();
-        
+    if(which == 0){    
         TRISBbits.TRISB15 = 1;
         ANSELBbits.ANSB15 = 0;
         
@@ -39,7 +32,7 @@ void uartsetup(char which, long clock, int baud){
         U1STAbits.URXEN = 1;
         U1STAbits.UTXBRK = 0;
         U1STAbits.UTXEN = 1;
-        U1STAbits.URXISEL = 0;
+        U1STAbits.URXISEL = 1;
         U1STAbits.ADDEN = 0;
         
         U1BRG = clock/baud;
@@ -58,7 +51,10 @@ void uartsend(char fromwhere, char val){
 }
 
 char uartread(char fromwhere){
+    char val;
     if(fromwhere == 0){
-        return U1RXREG;
+        val = U1RXREG;
+        U1RXREG = 0;
+        return val;
     }
 }
