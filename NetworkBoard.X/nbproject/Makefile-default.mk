@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c pwm.c uart.c network_functions.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/network_functions.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/network_functions.o.d ${OBJECTDIR}/external_io.o.d ${OBJECTDIR}/ucontroller_config.o.d ${OBJECTDIR}/system_pin.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o
 
 # Source Files
-SOURCEFILES=main.c pwm.c uart.c network_functions.c
+SOURCEFILES=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c
 
 
 
@@ -131,6 +131,24 @@ ${OBJECTDIR}/network_functions.o: network_functions.c  nbproject/Makefile-${CND_
 	@${RM} ${OBJECTDIR}/network_functions.o 
 	@${FIXDEPS} "${OBJECTDIR}/network_functions.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/network_functions.o.d" -o ${OBJECTDIR}/network_functions.o network_functions.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/external_io.o: external_io.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/external_io.o.d 
+	@${RM} ${OBJECTDIR}/external_io.o 
+	@${FIXDEPS} "${OBJECTDIR}/external_io.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/external_io.o.d" -o ${OBJECTDIR}/external_io.o external_io.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/ucontroller_config.o: ucontroller_config.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/ucontroller_config.o.d 
+	@${RM} ${OBJECTDIR}/ucontroller_config.o 
+	@${FIXDEPS} "${OBJECTDIR}/ucontroller_config.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ucontroller_config.o.d" -o ${OBJECTDIR}/ucontroller_config.o ucontroller_config.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/system_pin.o: system_pin.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/system_pin.o.d 
+	@${RM} ${OBJECTDIR}/system_pin.o 
+	@${FIXDEPS} "${OBJECTDIR}/system_pin.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/system_pin.o.d" -o ${OBJECTDIR}/system_pin.o system_pin.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -155,6 +173,24 @@ ${OBJECTDIR}/network_functions.o: network_functions.c  nbproject/Makefile-${CND_
 	@${RM} ${OBJECTDIR}/network_functions.o.d 
 	@${RM} ${OBJECTDIR}/network_functions.o 
 	@${FIXDEPS} "${OBJECTDIR}/network_functions.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/network_functions.o.d" -o ${OBJECTDIR}/network_functions.o network_functions.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/external_io.o: external_io.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/external_io.o.d 
+	@${RM} ${OBJECTDIR}/external_io.o 
+	@${FIXDEPS} "${OBJECTDIR}/external_io.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/external_io.o.d" -o ${OBJECTDIR}/external_io.o external_io.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/ucontroller_config.o: ucontroller_config.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/ucontroller_config.o.d 
+	@${RM} ${OBJECTDIR}/ucontroller_config.o 
+	@${FIXDEPS} "${OBJECTDIR}/ucontroller_config.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/ucontroller_config.o.d" -o ${OBJECTDIR}/ucontroller_config.o ucontroller_config.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/system_pin.o: system_pin.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/system_pin.o.d 
+	@${RM} ${OBJECTDIR}/system_pin.o 
+	@${FIXDEPS} "${OBJECTDIR}/system_pin.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/system_pin.o.d" -o ${OBJECTDIR}/system_pin.o system_pin.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 

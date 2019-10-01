@@ -1,2 +1,4 @@
 build/default/production/main.o:  \
-main.c 
+main.c  \
+ucontroller_config.h  \
+system_pin.h 
