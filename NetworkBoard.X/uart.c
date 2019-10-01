@@ -14,7 +14,7 @@ void uartsetup(char which, long clock, int baud){
         U1MODEbits.OVFDIS = 1;
         U1MODEbits.SIDL = 0;
         U1MODEbits.IREN = 0;
-        U1MODEbits.WAKE = 1;
+        U1MODEbits.WAKE = 0;
         U1MODEbits.LPBACK = 0;
         U1MODEbits.ABAUD = 0;
         U1MODEbits.RXINV = 0;
