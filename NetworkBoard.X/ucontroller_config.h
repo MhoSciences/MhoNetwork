@@ -18,7 +18,8 @@
 #ifndef ucontroller_config_H    /* Guard against multiple inclusion */
 #define ucontroller_config_H
 
-
+void __delay_us(int us);
+void __delay_ms(int ms);
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

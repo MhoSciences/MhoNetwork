@@ -43,3 +43,13 @@
 #include <sys/attribs.h>
 #include "ucontroller_config.h"
 
+void __delay_us(int us){
+    int tWait, tStart;
+    tWait = 12*us;
+    tStart = _CP0_GET_COUNT();
+    while(_CP0_GET_COUNT()-tStart < tWait);
+}
+
+void __delay_ms(int ms){
+    __delay_us(1000*ms);
+}

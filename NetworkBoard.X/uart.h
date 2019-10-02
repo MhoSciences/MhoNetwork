@@ -19,6 +19,7 @@
 #define uart_H
 
 void uartsetup(char which, long clock, int speed);
+void uart_interrupt(char which, char state);
 void uartsend(char fromwhere, char val);
 char uartread(char fromwhere);
 

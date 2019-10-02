@@ -2,6 +2,11 @@
 #include <xc.h>
 
 void setup_io() {
+    OSCCON = 0x00000000;
+    SPLLCONbits.PLLODIV = 0;
+    SPLLCONbits.PLLMULT = 6;
+    SPLLCONbits.PLLICLK = 1;
+    
     TRISBbits.TRISB5 = 0;
     TRISBbits.TRISB6 = 0;
     TRISBbits.TRISB7 = 0;
