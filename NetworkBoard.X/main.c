@@ -13,11 +13,11 @@ void main() {
     setup_io();
 
     __builtin_disable_interrupts();
-    uart_interrupt(0, 1);
-    uart_interrupt(1, 1);
+    uart_rx_interrupt(0, 1);
+    uart_rx_interrupt(1, 1);
     __builtin_enable_interrupts();
 
-    uartsetup(0, SYS_FREQ, 115200);
+    uartsetup(0, SYS_FREQ, 1000000);
     uartsetup(1, SYS_FREQ, 115200);
     
     int loop = 0;

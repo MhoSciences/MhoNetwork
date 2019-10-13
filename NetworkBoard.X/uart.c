@@ -1,7 +1,7 @@
 #include <xc.h>
 #include "uart.h"
 
-void uartsetup(char which, long clock, int baud) {
+void uartsetup(char which, long clock, long baud) {
     if (which == 0) {
         TRISBbits.TRISB15 = 1;
         ANSELBbits.ANSB15 = 0;
@@ -40,11 +40,11 @@ void uartsetup(char which, long clock, int baud) {
         U1MODEbits.ACTIVE = 1;
         U1MODEbits.ON = 1;
     }else if(which == 1){
-        TRISCbits.TRISC9 = 1;
-        RPINR9bits.U2RXR = 18;
+        TRISAbits.TRISA4 = 1;
+        RPINR9bits.U2RXR = 5;
         
-        TRISBbits.TRISB9 = 0;
-        RPOR4bits.RP18R = 4;
+        TRISBbits.TRISB5 = 0;
+        RPOR2bits.RP11R = 4;
 
         U2MODEbits.SLPEN = 1;
         U2MODEbits.CLKSEL = 1;
@@ -79,7 +79,7 @@ void uartsetup(char which, long clock, int baud) {
     }
 }
 
-void uart_interrupt(char which, char state) {
+void uart_rx_interrupt(char which, char state) {
     if (which == 0) {
         //Int priorities
         IPC13bits.U1RXIP = 5;

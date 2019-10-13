@@ -18,11 +18,11 @@
 #ifndef system_pins_H    /* Guard against multiple inclusion */
 #define system_pins_H
 
-#define add_led_pin LATBbits.LATB5
 #define data_rx_pin LATBbits.LATB6
 #define led0_pin    LATBbits.LATB7
 #define led1_pin    LATBbits.LATB8
-#define sys_pwr_pin LATBbits.LATB13
+#define led2_pin    LATBbits.LATB9
+#define sys_pwr_pin LATCbits.LATC9
 
 #define mode_pin    PORTBbits.RB10
 #define user_pin    PORTBbits.RB11
