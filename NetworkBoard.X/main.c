@@ -99,6 +99,7 @@ void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
         IFS0bits.T3IF = 0;
         TMR3    = 0;
     }
+}
 
 void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
     LATBINV = _LATB_LATB7_MASK;
@@ -123,5 +124,5 @@ void __ISR(_UART2_RX_VECTOR, IPL6SOFT)_UART2RXHandler(void) {
     while (IFS1bits.U2RXIF) {
         array[d_index] = uartread(0);
         d_index = (d_index + 1) % 256;
-    }
+    }    
 }
