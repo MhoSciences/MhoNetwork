@@ -2,6 +2,7 @@
 #include "system_pin.h"
 #include <xc.h>
 #include <sys/attribs.h>
+#include "adc.h"
 
 #define SYS_FREQ 24000000
 
