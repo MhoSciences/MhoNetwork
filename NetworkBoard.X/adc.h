@@ -15,12 +15,10 @@
  */
 /* ************************************************************************** */
 
-#ifndef uart_H    /* Guard against multiple inclusion */
-#define uart_H
+#ifndef adc_H    /* Guard against multiple inclusion */
+#define adc_H
 
-void uartsetup(char which, long clock, int speed);
-void uartsend(char fromwhere, char val);
-char uartread(char fromwhere);
+void adcsetup();
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

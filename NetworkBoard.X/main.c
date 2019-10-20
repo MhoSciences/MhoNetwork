@@ -41,6 +41,7 @@
 
 #include <xc.h>
 #include <sys/attribs.h>
+#include "adc.h"
 
 #define sys_pwr_pin LATBbits.LATB9
 #define data_rx_pin LATCbits.LATC9
