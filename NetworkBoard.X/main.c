@@ -36,7 +36,7 @@ void initConfigTimer()
     IEC0bits.T3IE = 0;  // Disable Timer 2 Interrupt
 
     // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
-    PR3 = 56250;
+    PR3 = 46875;
 
     // Set up the pre-scaler
     T3CONbits.TCKPS = 0b111; // Pre-scale of 8
