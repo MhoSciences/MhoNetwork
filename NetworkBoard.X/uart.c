@@ -35,7 +35,7 @@ void uartsetup(char which, long clock, long baud) {
         U1STAbits.URXISEL = 1;
         U1STAbits.ADDEN = 0;
 
-        U1BRG = clock / baud;
+        U1BRG = 5;//clock / baud;
 
         U1MODEbits.ACTIVE = 1;
         U1MODEbits.ON = 1;
