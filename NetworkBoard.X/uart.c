@@ -72,7 +72,7 @@ void uartsetup(char which, long clock, long baud) {
         U2STAbits.URXISEL = 1;
         U2STAbits.ADDEN = 0;
 
-        U2BRG = clock / baud;
+        U2BRG = 2;
 
         U2MODEbits.ACTIVE = 1;
         U2MODEbits.ON = 1;

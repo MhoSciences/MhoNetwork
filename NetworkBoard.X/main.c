@@ -15,10 +15,10 @@ void initDataTimer(int frequency)
     IEC0bits.T2IE = 0;  // Disable Timer 2 Interrupt
 
     // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
-    PR2 = SYS_FREQ / 2 / frequency / 8;
+    PR2 = SYS_FREQ / frequency;
 
     // Set up the pre-scaler
-    T2CONbits.TCKPS = 0b011; // Pre-scale of 8
+    T2CONbits.TCKPS = 0b110; // Pre-scale of 8
 
     IFS0bits.T2IF = 0;  // Clear interrupt flag for timer 2
     IPC4bits.T2IP = 3;  // Interrupt priority 3
@@ -35,10 +35,10 @@ void initConfigTimer(int frequency)
     IEC0bits.T3IE = 0;  // Disable Timer 2 Interrupt
 
     // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
-    PR3 = SYS_FREQ / 2 / frequency / 8;
+    PR3 = SYS_FREQ / frequency;
 
     // Set up the pre-scaler
-    T3CONbits.TCKPS = 0b011; // Pre-scale of 8
+    T3CONbits.TCKPS = 0b111; // Pre-scale of 8
 
     IFS0bits.T3IF = 0;  // Clear interrupt flag for timer 2
     IPC4bits.T3IP = 2;  // Interrupt priority 3
@@ -49,7 +49,8 @@ void initConfigTimer(int frequency)
 }
 
 void main() {
-    
+    //initDataTimer(1);
+    //initConfigTimer(1);
     setup_io();
 
     __builtin_disable_interrupts();
@@ -57,14 +58,18 @@ void main() {
     uart_rx_interrupt(1, 1);
     __builtin_enable_interrupts();
 
-    uartsetup(0, SYS_FREQ, 1000000);
+    uartsetup(0, SYS_FREQ, 3000000);
     uartsetup(1, SYS_FREQ, 115200);
     
+    ANSELBbits.ANSB3 = 0;
+    TRISBbits.TRISB3 = 0;
+    PORTBbits.RB3 = ~PORTBbits.RB3;
     int loop = 0;
     while (1) {
-        uartsend(0, '0');
-        uartsend(1, '0');
-        __delay_ms(100);
+        PORTBbits.RB3 = ~PORTBbits.RB3;
+        //uartsend(0, 0x55);
+        //uartsend(1, 0x55);
+        //__delay_ms(1);
     }
 }
 
@@ -73,6 +78,9 @@ void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
         TMR2    = 0;
         IFS0bits.T2IF = 0;
         led0_pin = ~led0_pin;
+        ANSELBbits.ANSB3 = 0;
+        TRISBbits.TRISB3 = 0;
+        PORTBbits.RB3 = ~PORTBbits.RB3;
     }
 }
 
@@ -81,6 +89,9 @@ void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
         TMR3    = 0;
         IFS0bits.T3IF = 0;
         led1_pin = ~led1_pin;
+        ANSELBbits.ANSB2 = 0;
+        TRISBbits.TRISB2 = 0;
+        PORTBbits.RB2 = ~PORTBbits.RB2;
     }
 }
 

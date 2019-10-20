@@ -4,7 +4,7 @@
 void setup_io() {
     OSCCON = 0x00000000;
     SPLLCONbits.PLLODIV = 0;
-    SPLLCONbits.PLLMULT = 6;
+    SPLLCONbits.PLLMULT = 7;
     SPLLCONbits.PLLICLK = 1;
     
     //Address Pins
