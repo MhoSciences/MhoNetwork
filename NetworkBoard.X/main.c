@@ -64,13 +64,12 @@ void main() {
     ANSELBbits.ANSB3 = 0;
     TRISBbits.TRISB3 = 0;
     while (1) {
-        uartsend(0, 0x55);
+        //uartsend(0, 0x55);
         __delay_us(100);
     }
 }
 
 void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) { 
-    if (IFS0bits.T2IF) {
         char timeStampHigh = _CP0_GET_COUNT() | 0x70;
         char timeStampLow = _CP0_GET_COUNT() | 0x0F;
         char dataMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
@@ -82,11 +81,9 @@ void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
         LATBINV = _LATB_LATB7_MASK;
         IFS0bits.T2IF = 0;
         TMR2    = 0;
-    }
 }
 
 void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
-    if (IFS0bits.T3IF) {
         char timeStampHigh = _CP0_GET_COUNT() | 0x70;
         char timeStampLow = _CP0_GET_COUNT() | 0x0F;
         char bypassMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
@@ -98,19 +95,6 @@ void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
         LATBINV = _LATB_LATB8_MASK;
         IFS0bits.T3IF = 0;
         TMR3    = 0;
-    }
-}
-
-void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
-    LATBINV = _LATB_LATB7_MASK;
-    IFS0bits.T2IF = 0;
-    TMR2 = 0;
-}
-
-void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
-    LATBINV = _LATB_LATB8_MASK;
-    IFS0bits.T3IF = 0;
-    TMR3 = 0;
 }
 
 void __ISR(_UART1_RX_VECTOR, IPL5SOFT)_UART1RXHandler(void) {
