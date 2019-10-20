@@ -18,6 +18,7 @@
 #ifndef ucontroller_config_H    /* Guard against multiple inclusion */
 #define ucontroller_config_H
 
+void __delay_clk(long clk);
 void __delay_us(long us);
 void __delay_ms(long ms);
 

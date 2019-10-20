@@ -1,12 +1,7 @@
 #include "system_pin.h"
 #include <xc.h>
 
-void setup_io() {
-    OSCCON = 0x00000000;
-    SPLLCONbits.PLLODIV = 0;
-    SPLLCONbits.PLLMULT = 7;
-    SPLLCONbits.PLLICLK = 1;
-    
+void setup_io() {    
     //Address Pins
     TRISAbits.TRISA0 = 1;
     ANSELAbits.ANSA0 = 1;

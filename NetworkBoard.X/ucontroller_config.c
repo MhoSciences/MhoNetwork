@@ -25,6 +25,7 @@
 
 // FOSCSEL
 #pragma config FNOSC = PLL // FRCDIV           // Oscillator Selection bits (Fast RC oscillator (FRC) with divide-by-N)
+//#pragma config FPLLMUL = MUL_24
 #pragma config PLLSRC = FRC             // System PLL Input Clock Selection bit (FRC oscillator is selected as PLL reference input on device reset)
 #pragma config SOSCEN = OFF             // Secondary Oscillator Enable bit (Secondary oscillator (SOSC) is disabled)
 #pragma config IESO = OFF               // Two Speed Startup Enable bit (Two speed startup is disabled)
@@ -46,6 +47,13 @@
 void __delay_us(long us){
     int tWait, tStart;
     tWait = 12*us;
+    tStart = _CP0_GET_COUNT();
+    while(_CP0_GET_COUNT()-tStart < tWait);
+}
+
+void __delay_clk(long clk){
+    int tWait, tStart;
+    tWait = clk;
     tStart = _CP0_GET_COUNT();
     while(_CP0_GET_COUNT()-tStart < tWait);
 }

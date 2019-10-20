@@ -5,19 +5,19 @@
 #include <sys/attribs.h>
 #include "adc.h"
 
-#define SYS_FREQ 6000000
+#define SYS_FREQ 24000000
 
 char array[256];
 char d_index = 0;
 
-void initDataTimer(int frequency)
+void initDataTimer()
 {
     T2CON   = 0x0;      // Disable timer 2 when setting it up
     TMR2    = 0;        // Set timer 2 counter to 0
     IEC0bits.T2IE = 0;  // Disable Timer 2 Interrupt
 
     // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
-    PR2 = SYS_FREQ / frequency;
+    PR2 = 37500;
 
     // Set up the pre-scaler
     T2CONbits.TCKPS = 0b110; // Pre-scale of 8
@@ -30,14 +30,14 @@ void initDataTimer(int frequency)
     T2CONbits.TON   = 1;
 }
 
-void initConfigTimer(int frequency)
+void initConfigTimer()
 {
     T3CON   = 0x0;      // Disable timer 2 when setting it up
     TMR3    = 0;        // Set timer 2 counter to 0
     IEC0bits.T3IE = 0;  // Disable Timer 2 Interrupt
 
     // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
-    PR3 = SYS_FREQ / frequency;
+    PR3 = 46875;
 
     // Set up the pre-scaler
     T3CONbits.TCKPS = 0b111; // Pre-scale of 8
@@ -51,8 +51,8 @@ void initConfigTimer(int frequency)
 }
 
 void main() {
-    //initDataTimer(1);
-    //initConfigTimer(1);
+    initDataTimer();
+    initConfigTimer(1);
     setup_io();
 
     __builtin_disable_interrupts();
@@ -60,18 +60,14 @@ void main() {
     uart_rx_interrupt(1, 1);
     __builtin_enable_interrupts();
 
-    uartsetup(0, SYS_FREQ, 3000000);
-    uartsetup(1, SYS_FREQ, 115200);
+    uartsetup(0, SYS_FREQ, 1000000);
+    uartsetup(1, SYS_FREQ, 1000000);
     
     ANSELBbits.ANSB3 = 0;
     TRISBbits.TRISB3 = 0;
-    PORTBbits.RB3 = ~PORTBbits.RB3;
-    int loop = 0;
     while (1) {
-        PORTBbits.RB3 = ~PORTBbits.RB3;
-        //uartsend(0, 0x55);
-        //uartsend(1, 0x55);
-        //__delay_ms(1);
+        uartsend(0, 0x55);
+        __delay_us(100);
     }
 }
 
@@ -85,11 +81,9 @@ void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
             uartsend(0,dataMhorsel[i]);
         }
         TMR2    = 0;
+        LATBINV = _LATB_LATB7_MASK;
         IFS0bits.T2IF = 0;
-        led0_pin = ~led0_pin;
-        ANSELBbits.ANSB3 = 0;
-        TRISBbits.TRISB3 = 0;
-        PORTBbits.RB3 = ~PORTBbits.RB3;
+        TMR2    = 0;
     }
 }
 
@@ -103,11 +97,9 @@ void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
             uartsend(0,bypassMhorsel[i]);
         }
         TMR3    = 0;
+        LATBINV = _LATB_LATB8_MASK;
         IFS0bits.T3IF = 0;
-        led1_pin = ~led1_pin;
-        ANSELBbits.ANSB2 = 0;
-        TRISBbits.TRISB2 = 0;
-        PORTBbits.RB2 = ~PORTBbits.RB2;
+        TMR3    = 0;
     }
 }
 
