@@ -23,7 +23,7 @@ int _setupNetworkDefaults(long packetHeader[]);
  * Output:  status - an integer value from 0x00 to 0x01 indicating success or failure
  */
 
-void _getHardwareAddress(char byteNum);
+char _getHardwareAddress(char byteNum);
 /* _getHardwareAddress
  * This functions takes in a single packet and places the hardware address into
  * the appropriate bit place. 

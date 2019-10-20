@@ -1,91 +1,115 @@
-// PIC32MM0064GPL036 Configuration Bit Settings
-
-// 'C' source line config statements
-
-// FDEVOPT
-#pragma config SOSCHP = OFF             // Secondary Oscillator High Power Enable bit (SOSC oprerates in normal power mode.)
-#pragma config USERID = 0xBEEF          // User ID bits (User ID bits)
-
-// FICD
-#pragma config JTAGEN = OFF             // JTAG Enable bit (JTAG is disabled)
-#pragma config ICS = PGx1               // ICE/ICD Communication Channel Selection bits (Communicate on PGEC1/PGED1)
-
-// FPOR
-#pragma config BOREN = BOR0             // Brown-out Reset Enable bits (Brown-out Reset disabled in hardware; SBOREN bit disabled)
-#pragma config RETVR = OFF              // Retention Voltage Regulator Enable bit (Retention regulator is disabled)
-#pragma config LPBOREN = OFF            // Low Power Brown-out Enable bit (Low power BOR is disabled)
-
-// FWDT
-#pragma config SWDTPS = PS1048576       // Sleep Mode Watchdog Timer Postscale Selection bits (1:1048576)
-#pragma config FWDTWINSZ = PS25_0       // Watchdog Timer Window Size bits (Watchdog timer window size is 25%)
-#pragma config WINDIS = OFF             // Windowed Watchdog Timer Disable bit (Watchdog timer is in non-window mode)
-#pragma config RWDTPS = PS1048576       // Run Mode Watchdog Timer Postscale Selection bits (1:1048576)
-#pragma config RCLKSEL = LPRC           // Run Mode Watchdog Timer Clock Source Selection bits (Clock source is LPRC (same as for sleep mode))
-#pragma config FWDTEN = OFF             // Watchdog Timer Enable bit (WDT is disabled)
-
-// FOSCSEL
-#pragma config FNOSC = PLL // FRCDIV           // Oscillator Selection bits (Fast RC oscillator (FRC) with divide-by-N)
-#pragma config PLLSRC = FRC             // System PLL Input Clock Selection bit (FRC oscillator is selected as PLL reference input on device reset)
-#pragma config SOSCEN = OFF             // Secondary Oscillator Enable bit (Secondary oscillator (SOSC) is disabled)
-#pragma config IESO = OFF               // Two Speed Startup Enable bit (Two speed startup is disabled)
-#pragma config POSCMOD = OFF            // Primary Oscillator Selection bit (Primary oscillator is disabled)
-#pragma config OSCIOFNC = OFF           // System Clock on CLKO Pin Enable bit (OSCO pin operates as a normal I/O)
-#pragma config SOSCSEL = ON             // Secondary Oscillator External Clock Enable bit (External clock is connected to SOSCO pin (RA4 and RB4 are controlled by I/O port registers))
-#pragma config FCKSM = CSDCMD           // Clock Switching and Fail-Safe Clock Monitor Enable bits (Clock switching is disabled; Fail-safe clock monitor is disabled)
-
-// FSEC
-#pragma config CP = OFF                 // Code Protection Enable bit (Code protection is disabled)
-
-// #pragma config statements should precede project file includes.
-// Use project enums instead of #define for ON and OFF.
-
+#include "ucontroller_config.h"
+#include "system_pin.h"
 #include <xc.h>
 #include <sys/attribs.h>
 #include "adc.h"
 
-#define sys_pwr_pin LATBbits.LATB9
-#define data_rx_pin LATCbits.LATC9
-#define hardware_add (PORTA & 0x0F)
+#define SYS_FREQ 6000000
 
-char array[0x10];
+char array[256];
 char d_index = 0;
 
-void setup_io(){
-    //Input Setup RA0-RA3 are address pins RA4 is Input
-    TRISA = 0xFF;
-    ANSELA = 0x00;
-    
-    //Output Setup RB9 is System Power RC9 is Data Interrupt Flag
-    TRISBbits.TRISB9 = 0;
-    TRISCbits.TRISC9 = 0;
+void initDataTimer(int frequency)
+{
+    T2CON   = 0x0;      // Disable timer 2 when setting it up
+    TMR2    = 0;        // Set timer 2 counter to 0
+    IEC0bits.T2IE = 0;  // Disable Timer 2 Interrupt
+
+    // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
+    PR2 = SYS_FREQ / frequency;
+
+    // Set up the pre-scaler
+    T2CONbits.TCKPS = 0b110; // Pre-scale of 8
+
+    IFS0bits.T2IF = 0;  // Clear interrupt flag for timer 2
+    IPC4bits.T2IP = 3;  // Interrupt priority 3
+    IEC0bits.T2IE = 1;  // Enable Timer 2 Interrupt
+
+    // Turn on timer 2
+    T2CONbits.TON   = 1;
 }
 
+void initConfigTimer(int frequency)
+{
+    T3CON   = 0x0;      // Disable timer 2 when setting it up
+    TMR3    = 0;        // Set timer 2 counter to 0
+    IEC0bits.T3IE = 0;  // Disable Timer 2 Interrupt
 
+    // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
+    PR3 = SYS_FREQ / frequency;
 
-void main(){
+    // Set up the pre-scaler
+    T3CONbits.TCKPS = 0b111; // Pre-scale of 8
+
+    IFS0bits.T3IF = 0;  // Clear interrupt flag for timer 2
+    IPC4bits.T3IP = 2;  // Interrupt priority 3
+    IEC0bits.T3IE = 1;  // Enable Timer 2 Interrupt
+
+    // Turn on timer 2
+    T3CONbits.TON   = 1;
+}
+
+void main() {
+    //initDataTimer(1);
+    //initConfigTimer(1);
     setup_io();
+
+    __builtin_disable_interrupts();
+    uart_rx_interrupt(0, 1);
+    uart_rx_interrupt(1, 1);
+    __builtin_enable_interrupts();
+
+    uartsetup(0, SYS_FREQ, 3000000);
+    uartsetup(1, SYS_FREQ, 115200);
     
-    initPwm();
-    
-    uartsetup(0, 6000000, 9600);
-    INTCON = 0x0000;
-    
-    int loop;
-    while(1){
+    ANSELBbits.ANSB3 = 0;
+    TRISBbits.TRISB3 = 0;
+    PORTBbits.RB3 = ~PORTBbits.RB3;
+    int loop = 0;
+    while (1) {
+        PORTBbits.RB3 = ~PORTBbits.RB3;
         //uartsend(0, 0x55);
-        if(d_index == '0'){
-            data_rx_pin = ~data_rx_pin;
+        //uartsend(1, 0x55);
+        //__delay_ms(1);
+    }
+}
+
+void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
+    if (IFS0bits.T2IF) {
+        TMR2    = 0;
+        IFS0bits.T2IF = 0;
+        led0_pin = ~led0_pin;
+        ANSELBbits.ANSB3 = 0;
+        TRISBbits.TRISB3 = 0;
+        PORTBbits.RB3 = ~PORTBbits.RB3;
+    }
+}
+
+void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
+    if (IFS0bits.T3IF) {
+        TMR3    = 0;
+        IFS0bits.T3IF = 0;
+        led1_pin = ~led1_pin;
+        ANSELBbits.ANSB2 = 0;
+        TRISBbits.TRISB2 = 0;
+        PORTBbits.RB2 = ~PORTBbits.RB2;
+    }
+}
+
+void __ISR(_UART1_RX_VECTOR, IPL5SOFT)_UART1RXHandler(void) {
+    if (IFS1bits.U1RXIF) {
+        while (IFS1bits.U1RXIF) {
+            array[d_index] = uartread(0);
+            d_index = (d_index + 1) % 256;
         }
     }
 }
 
-void __ISR(_UART1_RX_VECTOR, IPL1SOFT)_UART1RXHandler(void) 
- {
-    if (IFS1bits.U1RXIF == 1) {
-        d_index = uartread(0);
-        uartsend(0, d_index);
-        data_rx_pin = ~data_rx_pin;
-        //index++;
-        //index = index % 0x10;
+void __ISR(_UART2_RX_VECTOR, IPL6SOFT)_UART2RXHandler(void) {
+    if (IFS1bits.U2RXIF) {
+        while (IFS1bits.U2RXIF) {
+            array[d_index] = uartread(0);
+            d_index = (d_index + 1) % 256;
+        }
     }
 }

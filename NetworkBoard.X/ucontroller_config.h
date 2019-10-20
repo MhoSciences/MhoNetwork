@@ -15,13 +15,11 @@
  */
 /* ************************************************************************** */
 
-#ifndef uart_H    /* Guard against multiple inclusion */
-#define uart_H
+#ifndef ucontroller_config_H    /* Guard against multiple inclusion */
+#define ucontroller_config_H
 
-void uartsetup(char which, long clock, long baud);
-void uart_rx_interrupt(char which, char state);
-void uartsend(char fromwhere, char val);
-char uartread(char fromwhere);
+void __delay_us(long us);
+void __delay_ms(long ms);
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

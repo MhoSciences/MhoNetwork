@@ -15,13 +15,19 @@
  */
 /* ************************************************************************** */
 
-#ifndef uart_H    /* Guard against multiple inclusion */
-#define uart_H
+#ifndef system_pins_H    /* Guard against multiple inclusion */
+#define system_pins_H
 
-void uartsetup(char which, long clock, long baud);
-void uart_rx_interrupt(char which, char state);
-void uartsend(char fromwhere, char val);
-char uartread(char fromwhere);
+#define data_rx_pin LATBbits.LATB6
+#define led0_pin    LATBbits.LATB7
+#define led1_pin    LATBbits.LATB8
+#define led2_pin    LATBbits.LATB9
+#define sys_pwr_pin LATCbits.LATC9
+
+#define mode_pin    PORTBbits.RB10
+#define user_pin    PORTBbits.RB11
+
+void setup_io();
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 
