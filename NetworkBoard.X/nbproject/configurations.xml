@@ -10,6 +10,7 @@
       <itemPath>external_io.h</itemPath>
       <itemPath>ucontroller_config.h</itemPath>
       <itemPath>system_pin.h</itemPath>
+      <itemPath>delimiter_definitions.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -43,7 +44,7 @@
         <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>2.30</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>2</platform>
       </toolsSet>
       <packs>
         <pack name="PIC32MM-GPM-0XX_DFP" vendor="Microchip" version="1.0.14"/>
