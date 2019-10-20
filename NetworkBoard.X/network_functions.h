@@ -11,7 +11,7 @@
 
 char dataBuffer[MAXBUFFERLENGTH];
 
-int _setupNetworkDefaults(long packetHeader[]); 
+void _setupNetworkDefaults(long packetHeader[]); 
 /* _setupNetworkDefauts
  * This functions takes in an array of long integers and then setups the static
  * header elements for any possible packet dependent on the device parameters set
@@ -71,7 +71,7 @@ int receivePacket(char packet[]);
  * This function takes in a packet array and fills it given the communication
  * network protocols available
  * 
- * Input: packet - an array of five longs representing an available packet
+ * Input: packet - an array of chars representing an available packet
  * 
  * Output: status - an integer value from 0x00 to 0x01 indicating success or failure
  */

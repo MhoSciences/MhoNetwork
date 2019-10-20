@@ -71,8 +71,8 @@ void main() {
 
 void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) { 
     if (IFS0bits.T2IF) {
-        char timeStampHigh = _CP0_GET_COUNT() | 0x70;
-        char timeStampLow = _CP0_GET_COUNT() | 0x0F;
+        char timeStampHigh = _CP0_GET_COUNT() & 0x70;
+        char timeStampLow = _CP0_GET_COUNT() & 0x0F;
         char dataMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
         int i = 0;
         for(i; i < 7; i++){
@@ -87,8 +87,8 @@ void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
 
 void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
     if (IFS0bits.T3IF) {
-        char timeStampHigh = _CP0_GET_COUNT() | 0x70;
-        char timeStampLow = _CP0_GET_COUNT() | 0x0F;
+        char timeStampHigh = _CP0_GET_COUNT() & 0x70;
+        char timeStampLow = _CP0_GET_COUNT() & 0x0F;
         char bypassMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
         int i = 0;
         for(i; i < 7; i++){
