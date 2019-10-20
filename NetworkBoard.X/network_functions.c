@@ -38,10 +38,10 @@ char _getHardwareAddress(char byteNum){
     }
 }
 
-int sendPacket(long packet[]){
+int sendPacket(char packet[]){
    
 }
 
-int receivePacket(long packet[]){
+int receivePacket(char packet[]){
     
 }

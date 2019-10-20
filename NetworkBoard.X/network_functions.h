@@ -6,8 +6,10 @@
 
 #ifndef NETWORK_FUNCTIONS_H 
 #define NETWORK_FUNCTIONS_H
-#define MAXPACKET 128
-#define STARTOFHEADER 0x01
+#define MAXPACKETLENGTH 128 //Needs to be a number that reflects a single second's worth of data
+#define MAXBUFFERLENGTH 500
+
+char dataBuffer[MAXBUFFERLENGTH];
 
 int _setupNetworkDefaults(long packetHeader[]); 
 /* _setupNetworkDefauts
@@ -25,8 +27,7 @@ int _setupNetworkDefaults(long packetHeader[]);
 
 char _getHardwareAddress(char byteNum);
 /* _getHardwareAddress
- * This functions takes in a single packet and places the hardware address into
- * the appropriate bit place. 
+ * This functions takes in a value and returns the corresponding high or low hardware address byte 
  * 
  * Input:   byteNum - a char value indicating which hardware address byte value 
  *                    to provide
@@ -35,7 +36,7 @@ char _getHardwareAddress(char byteNum);
  *                         hardware address
  */
 
-void _setupStaticPacketHeaderBytes(long packet[]);
+void _setupStaticPacketHeaderBytes(char packet[]);
 /* _setupStaticPacketHeaderBytes
  * This function takes in a single packet and places the static byte values into
  * the appropriate bit places.
@@ -45,7 +46,7 @@ void _setupStaticPacketHeaderBytes(long packet[]);
  * Output: N/A
  */
 
-void _setupStaticPacketFooterBytes(long packet[]);
+void _setupStaticPacketFooterBytes(char packet[]);
 /* _setupStaticPacketFooterBytes
  * This function takes in a single packet and places the static byte values into
  * the appropriate bit places.
@@ -54,7 +55,8 @@ void _setupStaticPacketFooterBytes(long packet[]);
  * 
  * Output: N/A
  */
-int sendPacket(long packet[]);
+
+int sendPacket(char packet[]);
 /* sendPacket
  * This function takes in a packet array and sends the data through the 
  * appropriate communications registers
@@ -64,7 +66,7 @@ int sendPacket(long packet[]);
  * Output: status - an integer value from 0x00 to 0x01 indicating success or failure
  */
 
-int receivePacket(long packet[]);
+int receivePacket(char packet[]);
 /* receivePacket
  * This function takes in a packet array and fills it given the communication
  * network protocols available
@@ -73,4 +75,5 @@ int receivePacket(long packet[]);
  * 
  * Output: status - an integer value from 0x00 to 0x01 indicating success or failure
  */
+
 #endif /* NETWORK_FUNCTIONS_H */
