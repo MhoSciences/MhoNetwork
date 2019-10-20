@@ -59,14 +59,14 @@ void main() {
     uart_rx_interrupt(1, 1);
     __builtin_enable_interrupts();
 
-    uartsetup(0, SYS_FREQ, 3000000);
-    uartsetup(1, SYS_FREQ, 115200);
+    uartsetup(0, SYS_FREQ, 1000000);
+    uartsetup(1, SYS_FREQ, 1000000);
     
     ANSELBbits.ANSB3 = 0;
     TRISBbits.TRISB3 = 0;
     while (1) {
         uartsend(0, 0x55);
-        __delay_us(1000);
+        __delay_us(100);
     }
 }
 
