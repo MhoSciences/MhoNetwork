@@ -8,6 +8,46 @@
 char array[256];
 char d_index = 0;
 
+void initDataTimer(int frequency)
+{
+    T2CON   = 0x0;      // Disable timer 2 when setting it up
+    TMR2    = 0;        // Set timer 2 counter to 0
+    IEC0bits.T2IE = 0;  // Disable Timer 2 Interrupt
+
+    // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
+    PR2 = SYS_FREQ / 2 / frequency / 8;
+
+    // Set up the pre-scaler
+    T2CONbits.TCKPS = 0b011; // Pre-scale of 8
+
+    IFS0bits.T2IF = 0;  // Clear interrupt flag for timer 2
+    IPC4bits.T2IP = 3;  // Interrupt priority 3
+    IEC0bits.T2IE = 1;  // Enable Timer 2 Interrupt
+
+    // Turn on timer 2
+    T2CONbits.TON   = 1;
+}
+
+void initConfigTimer(int frequency)
+{
+    T3CON   = 0x0;      // Disable timer 2 when setting it up
+    TMR3    = 0;        // Set timer 2 counter to 0
+    IEC0bits.T3IE = 0;  // Disable Timer 2 Interrupt
+
+    // Set up the period. Period = PBCLK3 frequency, which is SYS_FREQ / 2, divided by the frequency we want and then divided by 8 for our chosen pre-scaler.
+    PR3 = SYS_FREQ / 2 / frequency / 8;
+
+    // Set up the pre-scaler
+    T3CONbits.TCKPS = 0b011; // Pre-scale of 8
+
+    IFS0bits.T3IF = 0;  // Clear interrupt flag for timer 2
+    IPC4bits.T3IP = 2;  // Interrupt priority 3
+    IEC0bits.T3IE = 1;  // Enable Timer 2 Interrupt
+
+    // Turn on timer 2
+    T3CONbits.TON   = 1;
+}
+
 void main() {
     
     setup_io();
@@ -25,6 +65,22 @@ void main() {
         uartsend(0, '0');
         uartsend(1, '0');
         __delay_ms(100);
+    }
+}
+
+void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
+    if (IFS0bits.T2IF) {
+        TMR2    = 0;
+        IFS0bits.T2IF = 0;
+        led0_pin = ~led0_pin;
+    }
+}
+
+void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
+    if (IFS0bits.T3IF) {
+        TMR3    = 0;
+        IFS0bits.T3IF = 0;
+        led1_pin = ~led1_pin;
     }
 }
 
