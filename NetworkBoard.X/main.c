@@ -69,36 +69,32 @@ void main() {
     }
 }
 
-void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) { 
-    if (IFS0bits.T2IF) {
-        char timeStampHigh = (_CP0_GET_COUNT() >> 7) & 0x7F;
-        char timeStampLow = _CP0_GET_COUNT() & 0x7F;
-        char dataMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
-        int i = 0;
-        for(i; i < 7; i++){
-            uartsend(0,dataMhorsel[i]);
-        }
-        TMR2    = 0;
-        LATBINV = _LATB_LATB7_MASK;
-        IFS0bits.T2IF = 0;
-        TMR2    = 0;
-    }   
+void __ISR(_TIMER_2_VECTOR, IPL3SOFT)_dataTimerHandler(void) {
+    char timeStampHigh = (_CP0_GET_COUNT() >> 7) & 0x7F;
+    char timeStampLow = _CP0_GET_COUNT() & 0x7F;
+    char dataMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
+    int i = 0;
+    for (i; i < 7; i++) {
+        uartsend(0, dataMhorsel[i]);
+    }
+    TMR2 = 0;
+    LATBINV = _LATB_LATB7_MASK;
+    IFS0bits.T2IF = 0;
+    TMR2 = 0;
 }
 
 void __ISR(_TIMER_3_VECTOR, IPL2SOFT)_configTimerHandler(void) {
-    if (IFS0bits.T3IF) {
-        char timeStampHigh = (_CP0_GET_COUNT() >> 7) & 0x7F;
-        char timeStampLow = _CP0_GET_COUNT() & 0x7F;
-        char bypassMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
-        int i = 0;
-        for(i; i < 7; i++){
-            uartsend(0,bypassMhorsel[i]);
-        }
-        TMR3    = 0;
-        LATBINV = _LATB_LATB8_MASK;
-        IFS0bits.T3IF = 0;
-        TMR3    = 0;
+    char timeStampHigh = (_CP0_GET_COUNT() >> 7) & 0x7F;
+    char timeStampLow = _CP0_GET_COUNT() & 0x7F;
+    char bypassMhorsel[7] = {DAT, FILLER, COM, timeStampHigh, timeStampLow, SMC, EOT};
+    int i = 0;
+    for (i; i < 7; i++) {
+        uartsend(0, bypassMhorsel[i]);
     }
+    TMR3 = 0;
+    LATBINV = _LATB_LATB8_MASK;
+    IFS0bits.T3IF = 0;
+    TMR3 = 0;
 }
 
 void __ISR(_UART1_RX_VECTOR, IPL5SOFT)_UART1RXHandler(void) {
@@ -112,5 +108,5 @@ void __ISR(_UART2_RX_VECTOR, IPL6SOFT)_UART2RXHandler(void) {
     while (IFS1bits.U2RXIF) {
         array[d_index] = uartread(0);
         d_index = (d_index + 1) % 256;
-    }    
+    }
 }
