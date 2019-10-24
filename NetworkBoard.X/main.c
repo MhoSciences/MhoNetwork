@@ -55,7 +55,7 @@ void main() {
 
     __builtin_disable_interrupts();
     uart_rx_interrupt(0, 1);
-    uart_rx_interrupt(1, 1);
+    uart_rx_interrupt(1, 0);
     __builtin_enable_interrupts();
 
     uartsetup(0, SYS_FREQ, 1000000);
@@ -63,9 +63,12 @@ void main() {
 
     ANSELBbits.ANSB3 = 0;
     TRISBbits.TRISB3 = 0;
+    int loop = 0;
     while (1) {
-        //uartsend(0, 0x55);
-        __delay_us(100);
+        for(loop = 0; loop<256; loop++){
+            uartsend(1, 0x55);
+        }
+        __delay_us(250);
     }
 }
 
