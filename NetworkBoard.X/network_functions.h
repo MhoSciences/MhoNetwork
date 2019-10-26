@@ -9,9 +9,10 @@
 #define MAXPACKETLENGTH 128 //Needs to be a number that reflects a single second's worth of data
 #define MAXBUFFERLENGTH 500
 
+int dataBufferIndex;
 char dataBuffer[MAXBUFFERLENGTH];
 
-void _setupNetworkDefaults(long packetHeader[]); 
+void _setupNetworkDefaults(); 
 /* _setupNetworkDefauts
  * This functions takes in an array of long integers and then setups the static
  * header elements for any possible packet dependent on the device parameters set
