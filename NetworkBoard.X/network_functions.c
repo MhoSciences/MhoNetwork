@@ -4,8 +4,8 @@
  */
 #include"network_functions.h"
 
-void _setupNetworkDefaults(){
-    dataBufferIndex = 0;
+void _setupNetworkDefaults(long packetHeader[]){
+    int dataBufferIndex = 0;
     for(dataBufferIndex; dataBufferIndex < MAXBUFFERLENGTH; dataBufferIndex++){
         dataBuffer[dataBufferIndex] = 0x00;
     }

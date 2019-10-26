@@ -39,10 +39,10 @@ void uartsetup(char which, long clock, long baud) {
 
         U1MODEbits.ACTIVE = 1;
         U1MODEbits.ON = 1;
-    }else if(which == 1){
+    } else if (which == 1) {
         TRISAbits.TRISA4 = 1;
         RPINR9bits.U2RXR = 5;
-        
+
         TRISBbits.TRISB5 = 0;
         RPOR2bits.RP11R = 4;
 
@@ -90,7 +90,7 @@ void uart_rx_interrupt(char which, char state) {
         IEC1bits.U1EIE = 0;
         IEC1bits.U1TXIE = 0;
         IEC1bits.U1RXIE = state; //Enable int on RX
-    }else if(which == 1){
+    } else if (which == 1) {
         //Int priorities
         IPC14bits.U2RXIP = 6;
         IPC14bits.U2RXIS = 1;
@@ -108,10 +108,12 @@ void uartsend(char fromwhere, char val) {
         while (IFS1bits.U1TXIF == 0); // hold the program till TX buffer is free
         U1TXREG = val; //Load the transmitter buffer with the received value
         while (IFS1bits.U1TXIF == 0); // hold the program till TX buffer is free
-    }else if(fromwhere == 1){
+    } else if (fromwhere == 1) {
+        uart_rx_interrupt(1, 0);
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
         U2TXREG = val; //Load the transmitter buffer with the received value
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
+        uart_rx_interrupt(1, 0);
     }
 }
 
@@ -121,7 +123,7 @@ char uartread(char fromwhere) {
         val = U1RXREG;
         IFS1CLR = _IFS1_U1RXIF_MASK;
         return val;
-    }else if(fromwhere == 1){
+    } else if (fromwhere == 1) {
         val = U2RXREG;
         IFS1CLR = _IFS1_U2RXIF_MASK;
         return val;
