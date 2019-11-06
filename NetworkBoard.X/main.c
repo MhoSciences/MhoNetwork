@@ -52,7 +52,7 @@ void main() {
     initDataTimer();
     initConfigTimer(1);
     setup_io();
-
+    
     __builtin_disable_interrupts();
     uart_rx_interrupt(0, 1);
     uart_rx_interrupt(1, 0);
