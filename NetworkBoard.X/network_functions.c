@@ -9,6 +9,7 @@ void _setupNetworkDefaults(long packetHeader[]){
     for(dataBufferIndex; dataBufferIndex < MAXBUFFERLENGTH; dataBufferIndex++){
         dataBuffer[dataBufferIndex] = 0x00;
     }
+    
     return;
 }
 
