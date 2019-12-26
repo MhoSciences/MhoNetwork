@@ -18,7 +18,7 @@
 #ifndef pwm_H    /* Guard against multiple inclusion */
 #define pwm_H
 
-void initPwm(void);
+void setPWM(char pin, long freq, float duty, char state);
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

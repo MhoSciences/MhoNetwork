@@ -35,7 +35,7 @@ void uartsetup(char which, long clock, long baud) {
         U1STAbits.URXISEL = 1;
         U1STAbits.ADDEN = 0;
 
-        U1BRG = (clock / 4.5) / baud;
+        U1BRG = (clock / 4) / baud;
 
         U1MODEbits.ACTIVE = 1;
         U1MODEbits.ON = 1;
@@ -72,7 +72,7 @@ void uartsetup(char which, long clock, long baud) {
         U2STAbits.URXISEL = 1;
         U2STAbits.ADDEN = 0;
 
-        U2BRG = (clock / 4.5) / baud;
+        U2BRG = ((clock / 4) / baud) - 1;
 
         U2MODEbits.ACTIVE = 1;
         U2MODEbits.ON = 1;
@@ -113,7 +113,8 @@ void uartsend(char fromwhere, char val) {
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
         U2TXREG = val; //Load the transmitter buffer with the received value
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
-        uart_rx_interrupt(1, 0);
+        __delay_ms(1);
+        uart_rx_interrupt(1, 1);
     }
 }
 

@@ -8,12 +8,14 @@ void setup_io() {
     TRISAbits.TRISA1 = 1;
     ANSELAbits.ANSA1 = 1;   
     
+    
     TRISBbits.TRISB6 = 0;
     TRISBbits.TRISB7 = 0;
     TRISBbits.TRISB8 = 0;
     TRISBbits.TRISB9 = 0;
     TRISCbits.TRISC9 = 0;
     
+    //
     TRISBbits.TRISB10 = 1;
     TRISBbits.TRISB11 = 1;
 }

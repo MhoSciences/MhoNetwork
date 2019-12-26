@@ -21,6 +21,8 @@
 void __delay_clk(long clk);
 void __delay_us(long us);
 void __delay_ms(long ms);
+void initDataTimer();
+void initConfigTimer();
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 
