@@ -18,14 +18,14 @@
 #ifndef system_pins_H    /* Guard against multiple inclusion */
 #define system_pins_H
 
-#define data_rx_pin LATBbits.LATB6
-#define led0_pin    LATBbits.LATB7
-#define led1_pin    LATBbits.LATB8
-#define led2_pin    LATBbits.LATB9
-#define sys_pwr_pin LATCbits.LATC9
+#define led0_pin    LATBbits.LATB6
+#define led1_pin    LATBbits.LATB7
+#define led2_pin    LATBbits.LATB8
 
+#define sys_pwr_pin LATBbits.LATB11
+#define data_rx_pin LATBbits.LATB5
 #define mode_pin    PORTBbits.RB10
-#define user_pin    PORTBbits.RB11
+#define user_pin    PORTAbits.RA4
 
 #define EX0_setup   TRISBbits.TRISB2
 #define EX0_da      ANSELBbits.ANSB2
@@ -48,7 +48,7 @@
 #define EX3         LATAbits.LATA3
 
 #define EX4_setup   TRISBbits.TRISB4
-//#define EX4_da      ANSELBbits.ANSB4
+#define EX4_da      ANSELBbits.ANSB4
 #define EX4_ops     RPOR2bits.RP10R
 #define EX4         LATBbits.LATB4
 

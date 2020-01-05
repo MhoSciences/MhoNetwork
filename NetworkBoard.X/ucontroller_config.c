@@ -74,7 +74,7 @@ void initDataTimer() {
     T2CONbits.TCKPS = 0b110; // Pre-scale of 8
 
     IFS0bits.T2IF = 0; // Clear interrupt flag for timer 2
-    IPC4bits.T2IP = 3; // Interrupt priority 3
+    IPC4bits.T2IP = 4; // Interrupt priority 3
     IEC0bits.T2IE = 1; // Enable Timer 2 Interrupt
 
     // Turn on timer 2
@@ -93,7 +93,7 @@ void initConfigTimer() {
     T3CONbits.TCKPS = 0b111; // Pre-scale of 8
 
     IFS0bits.T3IF = 0; // Clear interrupt flag for timer 2
-    IPC4bits.T3IP = 2; // Interrupt priority 3
+    IPC4bits.T3IP = 5; // Interrupt priority 3
     IEC0bits.T3IE = 1; // Enable Timer 2 Interrupt
 
     // Turn on timer 2

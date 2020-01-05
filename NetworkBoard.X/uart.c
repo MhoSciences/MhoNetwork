@@ -2,7 +2,7 @@
 #include "uart.h"
 
 void uartsetup(char which, long clock, long baud) {
-    if (which == 0) {
+    if (which == 0) { //CPU
         TRISBbits.TRISB15 = 1;
         ANSELBbits.ANSB15 = 0;
 
@@ -35,16 +35,17 @@ void uartsetup(char which, long clock, long baud) {
         U1STAbits.URXISEL = 1;
         U1STAbits.ADDEN = 0;
 
-        U1BRG = (clock / 4) / baud;
+        U1BRG = ((clock / 4) / baud) - 1;
 
         U1MODEbits.ACTIVE = 1;
         U1MODEbits.ON = 1;
-    } else if (which == 1) {
-        TRISAbits.TRISA4 = 1;
-        RPINR9bits.U2RXR = 5;
+        
+    } else if (which == 1) { //MHO
+        TRISCbits.TRISC9 = 1;
+        RPINR9bits.U2RXR = 18;
 
-        TRISBbits.TRISB5 = 0;
-        RPOR2bits.RP11R = 4;
+        TRISBbits.TRISB9 = 0;
+        RPOR3bits.RP14R = 4;
 
         U2MODEbits.SLPEN = 1;
         U2MODEbits.CLKSEL = 1;
@@ -82,7 +83,7 @@ void uartsetup(char which, long clock, long baud) {
 void uart_rx_interrupt(char which, char state) {
     if (which == 0) {
         //Int priorities
-        IPC13bits.U1RXIP = 5;
+        IPC13bits.U1RXIP = 2;
         IPC13bits.U1RXIS = 1;
         //Int flags
         IFS1bits.U1RXIF = 0;
@@ -92,7 +93,7 @@ void uart_rx_interrupt(char which, char state) {
         IEC1bits.U1RXIE = state; //Enable int on RX
     } else if (which == 1) {
         //Int priorities
-        IPC14bits.U2RXIP = 6;
+        IPC14bits.U2RXIP = 1;
         IPC14bits.U2RXIS = 1;
         //Int flags
         IFS1bits.U2RXIF = 0;
