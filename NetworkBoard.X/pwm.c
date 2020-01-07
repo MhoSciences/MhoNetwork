@@ -2,7 +2,7 @@
 #include "system_pin.h"
 #include <xc.h>
 
-void setPWM(char pin, long freq, float duty, char state) {
+void setPWM(char pin, long freq, int duty, char state) {
     switch (pin) {
         case 0:
             EX0_setup   =   0;
@@ -18,7 +18,7 @@ void setPWM(char pin, long freq, float duty, char state) {
             CCP4PR = ((24000000 / 64) / freq) - 1; // This gives PWM freq =  24.0e6/64/62500 = 6 Hz
             CCP4RA = 0; // Go high at sync event (beginning of PWM cycle)
             // With CCP1RA = 0, duty cycle ratio is CCP1RB / (CCP1PR + 1)
-            CCP4RB = duty * CCP4PR; // This gives duty cycle ratio 0.5  (50%)
+            CCP4RB = duty; // This gives duty cycle ratio 0.5  (50%)
             CCP4CON1bits.ON = state;
             break;
         case 1:
@@ -74,7 +74,7 @@ void setPWM(char pin, long freq, float duty, char state) {
             break;
         case 4:
             EX4_setup   =   0;
-            //EX4_da      =   0;
+            EX4_da      =   0;
             EX4_ops     =   15;
 
             CCP8CON1 = 0; // Start with all defaults
@@ -107,4 +107,30 @@ void setPWM(char pin, long freq, float duty, char state) {
             CCP9CON1bits.ON = state;
             break;
     }
+}
+
+void setServo(char pin, char angle){
+    int temp = (750*angle)/127;
+    int duty = 187+temp;
+    switch (pin) {
+        case 0:
+            while(PORTBbits.RB2);
+            break;
+        case 1:
+            while(PORTBbits.RB3);
+            break;
+        case 2:
+            while(PORTAbits.RA2);
+            break;
+        case 3:
+            while(PORTAbits.RA3);
+            break;
+        case 4:
+            while(PORTBbits.RB4);
+            break;
+        case 5:
+            while(PORTBbits.RB13);
+            break;
+    }
+    setPWM(pin, 50, duty, 1);
 }

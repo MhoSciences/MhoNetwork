@@ -18,7 +18,8 @@
 #ifndef pwm_H    /* Guard against multiple inclusion */
 #define pwm_H
 
-void setPWM(char pin, long freq, float duty, char state);
+void setPWM(char pin, long freq, int duty, char state);
+void setServo(char pin, char angle);
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

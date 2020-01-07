@@ -28,30 +28,24 @@ void main() {
     uartsetup(1, SYS_FREQ, 115200);
 
     while (1) {
-        //        setPWM(0, 1000, 0.1, 1);
-        //        setPWM(1, 1000, 0.2, 1);
-        //        setPWM(2, 1000, 0.3, 1);
-        //        setPWM(3, 1000, 0.4, 1);
-        //        setPWM(4, 1000, 0.5, 1);
-        led2_pin = ~led2_pin;
-        __delay_ms(500);
+        char loop;
+            setServo(0, 0);
+            __delay_ms(1000);
+            setServo(0, 127);
+            __delay_ms(1000);
     }
 }
 
 void __ISR(_TIMER_2_VECTOR, IPL4SOFT)_dataCollect(void) {
-    led0_pin = 1;
-    __delay_ms(5);
+    led0_pin = ~led0_pin;
     IFS0bits.T2IF = 0;
     TMR2 = 0;
-    led0_pin = 0;
 }
 
 void __ISR(_TIMER_3_VECTOR, IPL5SOFT)_dataAnalyze(void) {
-    led1_pin = 1;
-__delay_ms(5);
+    //Function to analyze data
     IFS0bits.T3IF = 0;
     TMR3 = 0;
-    led1_pin = 0;
 }
 
 void __ISR(_EXTERNAL_4_VECTOR, IPL3SOFT) _UserInput(void){
