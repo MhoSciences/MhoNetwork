@@ -17,10 +17,12 @@
 #define DELIMITER_DEFINITIONS_H
 
 #define SOH 0x00
-#define EOT 0x01
-#define DAT 0x02
-#define SMC 0x03
-#define COM 0x04
+#define SOT 0x01
+#define EOT 0x02
+#define ETX 0x03
+#define DAT 0x04
+#define SMC 0x05
+#define COM 0x06
 #define FILLER 0xFF
 
 #endif 
