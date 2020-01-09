@@ -16,11 +16,10 @@
 #ifndef DELIMITER_DEFINITIONS_H    /* Guard against multiple inclusion */
 #define DELIMITER_DEFINITIONS_H
 
-#define SOH 0x00
-#define EOT 0x01
-#define DAT 0x02
-#define SMC 0x03
-#define COM 0x04
-#define FILLER 0xFF
+#define SOH 0x01
+#define STX 0x02
+#define ETX 0x03
+#define EOT 0x04
+#define ENQ 0x05
 
 #endif 

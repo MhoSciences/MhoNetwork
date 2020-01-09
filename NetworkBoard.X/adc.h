@@ -19,6 +19,7 @@
 #define adc_H
 
 void adcsetup();
+int readADC(char pin);
 
 #endif /* _EXAMPLE_FILE_NAME_H */
 

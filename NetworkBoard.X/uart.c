@@ -114,7 +114,7 @@ void uartsend(char fromwhere, char val) {
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
         U2TXREG = val; //Load the transmitter buffer with the received value
         while (IFS1bits.U2TXIF == 0); // hold the program till TX buffer is free
-        __delay_ms(1);
+        __delay_us(1);
         uart_rx_interrupt(1, 1);
     }
 }

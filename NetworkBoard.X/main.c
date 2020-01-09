@@ -24,20 +24,22 @@ void main() {
     //uart_rx_interrupt(1, 1);
     __builtin_enable_interrupts();
 
-    uartsetup(0, SYS_FREQ, 115200);
-    uartsetup(1, SYS_FREQ, 115200);
+    adcsetup();
+    uartsetup(0, SYS_FREQ, 750000);
+    uartsetup(1, SYS_FREQ, 250000);
 
     while (1) {
         char loop;
-            setServo(0, 0);
-            __delay_ms(1000);
-            setServo(0, 127);
-            __delay_ms(1000);
+        int data;
+        led1_pin = readDI(2);
+        data = readADC(1);
+        setServo(0, data/32);
+        __delay_ms(250);
     }
 }
 
 void __ISR(_TIMER_2_VECTOR, IPL4SOFT)_dataCollect(void) {
-    led0_pin = ~led0_pin;
+    
     IFS0bits.T2IF = 0;
     TMR2 = 0;
 }
@@ -49,15 +51,30 @@ void __ISR(_TIMER_3_VECTOR, IPL5SOFT)_dataAnalyze(void) {
 }
 
 void __ISR(_EXTERNAL_4_VECTOR, IPL3SOFT) _UserInput(void){
-    while(user_pin == 0){
-        led0_pin = 1;
-        led1_pin = 1;
-        led2_pin = 1;
-    }
+    uartsend(1, SOH);
+    uartsend(1, 'C'); //RID0
+    uartsend(1, 'P'); //RID1
+    uartsend(1, 'U'); //SRID
+    uartsend(1, 0x81); //SID0
+    uartsend(1, 0x80); //SID1
+    uartsend(1, 0x80); //SSID
+    uartsend(1, 0x80); //MEM
+    uartsend(1, 0x80); //QUEUE
+    uartsend(1, 0x80); //FLAG0
+    uartsend(1, 0x80); //FLAG1
+    uartsend(1, 0x07); //STATUS 
+
+    
+    uartsend(1, ETX);
+    uartsend(1, 0xFF); //CHK0
+    uartsend(1, 0xFF); //CHK1
+    uartsend(1, EOT);
+    
     IFS0bits.INT4IF = 0;
 }
 
 void __ISR(_UART1_RX_VECTOR, IPL2SOFT)_ExtUART(void) { //CPU
+    led0_pin = 1;
     if (mode_pin) {
         while (IFS1bits.U1RXIF) {
             cpuMhorcel[0][cpuIndex] = uartread(0);
@@ -70,9 +87,11 @@ void __ISR(_UART1_RX_VECTOR, IPL2SOFT)_ExtUART(void) { //CPU
     } else { // If mode is pass through device
         uartsend(1, uartread(0));
     }
+    led0_pin = 0;
 }
 
 void __ISR(_UART2_RX_VECTOR, IPL1SOFT)_MHONetwork(void) { //MHO
+    led0_pin = 1;
     if (mode_pin) {
         while (IFS1bits.U2RXIF) {
             mhoMhorcel[0][mhoIndex] = uartread(1);
@@ -85,4 +104,5 @@ void __ISR(_UART2_RX_VECTOR, IPL1SOFT)_MHONetwork(void) { //MHO
     } else { // If mode is pass through device
         uartsend(0, uartread(1));
     }
+    led0_pin = 0;
 }

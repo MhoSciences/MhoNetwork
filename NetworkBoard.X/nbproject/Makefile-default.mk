@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c adc_1.c adc.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c adc.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o ${OBJECTDIR}/adc_1.o ${OBJECTDIR}/adc.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/network_functions.o.d ${OBJECTDIR}/external_io.o.d ${OBJECTDIR}/ucontroller_config.o.d ${OBJECTDIR}/system_pin.o.d ${OBJECTDIR}/adc_1.o.d ${OBJECTDIR}/adc.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o ${OBJECTDIR}/adc.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/pwm.o.d ${OBJECTDIR}/uart.o.d ${OBJECTDIR}/network_functions.o.d ${OBJECTDIR}/external_io.o.d ${OBJECTDIR}/ucontroller_config.o.d ${OBJECTDIR}/system_pin.o.d ${OBJECTDIR}/adc.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o ${OBJECTDIR}/adc_1.o ${OBJECTDIR}/adc.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/pwm.o ${OBJECTDIR}/uart.o ${OBJECTDIR}/network_functions.o ${OBJECTDIR}/external_io.o ${OBJECTDIR}/ucontroller_config.o ${OBJECTDIR}/system_pin.o ${OBJECTDIR}/adc.o
 
 # Source Files
-SOURCEFILES=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c adc_1.c adc.c
+SOURCEFILES=main.c pwm.c uart.c network_functions.c external_io.c ucontroller_config.c system_pin.c adc.c
 
 
 
@@ -149,12 +149,6 @@ ${OBJECTDIR}/system_pin.o: system_pin.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/system_pin.o 
 	@${FIXDEPS} "${OBJECTDIR}/system_pin.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/system_pin.o.d" -o ${OBJECTDIR}/system_pin.o system_pin.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/adc_1.o: adc_1.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/adc_1.o.d 
-	@${RM} ${OBJECTDIR}/adc_1.o 
-	@${FIXDEPS} "${OBJECTDIR}/adc_1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc_1.o.d" -o ${OBJECTDIR}/adc_1.o adc_1.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
-	
 ${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
 	@${RM} ${OBJECTDIR}/adc.o.d 
@@ -203,12 +197,6 @@ ${OBJECTDIR}/system_pin.o: system_pin.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/system_pin.o.d 
 	@${RM} ${OBJECTDIR}/system_pin.o 
 	@${FIXDEPS} "${OBJECTDIR}/system_pin.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/system_pin.o.d" -o ${OBJECTDIR}/system_pin.o system_pin.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
-	
-${OBJECTDIR}/adc_1.o: adc_1.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/adc_1.o.d 
-	@${RM} ${OBJECTDIR}/adc_1.o 
-	@${FIXDEPS} "${OBJECTDIR}/adc_1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/adc_1.o.d" -o ${OBJECTDIR}/adc_1.o adc_1.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 ${OBJECTDIR}/adc.o: adc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
